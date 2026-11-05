@@ -1,18 +1,24 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import * as Notifications from 'expo-notifications';
+import {Tabs} from 'expo-router';
+import {Text} from 'react-native';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
-
-SplashScreen.preventAutoHideAsync();
+//Global Foreground Handler
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+    shouldShowBanner: true,
+    shouldShowList: true,
+  }),
+});
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <Tabs screenOptions={{tabBarActiveTintColor:'#0EA5E9'}}>
+      <Tabs.Screen name="index" 
+        options={{title:'Reminder',tabBarIcon:()=><Text>⏰ </Text>}}
+        />
+    </Tabs>
+    //Create another two tabs screen: "Tips & About".
   );
 }
